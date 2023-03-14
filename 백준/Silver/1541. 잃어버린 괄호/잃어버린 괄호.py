@@ -1,26 +1,25 @@
+# '-' 나오고 그 다음 '-' 나올때까지 다 더해서 한번에 빼주기
 import sys
-from collections import deque
 input = sys.stdin.readline
 
 string = input().split('-')
-lst = list(string)
 
 for i in range(len(string)):
     ans = 0
     temp = ''
-    for j in range(len(lst[i])):
-        if lst[i][j].isdigit() :
-            temp += lst[i][j]
+    for j in range(len(string[i])):
+        if string[i][j].isdigit() :
+            temp += string[i][j]
         else :
             ans += int(temp)
             temp = ''
     if temp :
         ans+=int(temp)
 
-    lst[i] = ans
+    string[i] = ans
 
-ans = lst[0]
-for i in range(1,len(lst)):
-    ans -= lst[i]
+ans = string[0]
+for i in range(1,len(string)):
+    ans -= string[i]
 
 print(ans)
