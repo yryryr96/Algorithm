@@ -27,5 +27,11 @@ def bfs(i,j):
 for i in range(n):
     for j in range(m):
         if graph[i][j] == 'L':
+            if i-1 >= 0 and i+1 < n :
+                if graph[i-1][j] == "L" and graph[i+1][j] == "L" :
+                    continue
+            if j-1 >= 0 and j+1 < m :
+                if graph[i][j-1] == "L" and graph[i][j+1] == "L" :
+                    continue
             bfs(i,j)
 print(MAX)
