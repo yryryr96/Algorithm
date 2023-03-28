@@ -35,14 +35,12 @@ def dfs(row,col,cnt):
         if i == row :
             col = col
         else :
-            col = 0
+            col = 1
         for j in range(col,n):
             if graph[i][j] == 0 and graph[i][j - 1] == 0 and graph[i][j+1] == 0 :
                 graph[i][j] = 1
                 dfs(i,j+1, cnt + 1)
                 graph[i][j] = 0
-
-
 
 dfs(1,1,0)
 
