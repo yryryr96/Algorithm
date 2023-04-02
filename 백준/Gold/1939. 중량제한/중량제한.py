@@ -28,7 +28,7 @@ for _ in range(m):
     graph[b].append((a,c))
 
 s,e = map(int,input().split())
-start,end = 1,sys.maxsize
+start,end = 1,1000000000
 
 while start <= end :
     mid = (start+end)//2
