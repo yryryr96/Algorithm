@@ -3,22 +3,22 @@ input = sys.stdin.readline
 
 n = int(input())
 lst = list(map(int,input().split()))
-dp = [1]*(n)
+dp = [1]*n
 
 for i in range(n):
     for j in range(i):
         if lst[i] > lst[j] :
-            dp[i] = max(dp[i],dp[j]+1)
+            dp[i] = max(dp[i],dp[j] + 1)
 
-print(max(dp))
-
-MAX = max(dp)
-MAX_idx = dp.index(MAX)
+max_value = max(dp)
+max_idx = dp.index(max_value)
+print(max_value)
 lis = []
-while MAX_idx >= 0 :
-    if dp[MAX_idx] == MAX :
-        lis.append(lst[MAX_idx])
-        MAX -= 1
-    MAX_idx -= 1
-print(*list(reversed(lis)))
+while max_idx >= 0 :
+    if dp[max_idx] == max_value :
+        lis.append(lst[max_idx])
+        max_value -= 1
+    max_idx-=1
+lis.reverse()
 
+print(*lis)
