@@ -2,6 +2,7 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 sys.setrecursionlimit(10001)
+
 N = int(input())
 graph = [list(map(int,input().split())) for _ in range(N)]
 visited = [[0 for _ in range(N)] for _ in range(N)]
@@ -34,14 +35,13 @@ def bfs(i,j) :
         now = q.popleft()
         for di,dj in point :
             ni,nj =  now[0]+di, now[1] + dj
-            if 0<=ni<N and 0<=nj<N and (visited[ni][nj] == 0 or visited[ni][nj] == 1):
+            if 0<=ni<N and 0<=nj<N and visited[ni][nj] == 0 :
                 if graph[ni][nj] == 0 :
                     q.append((ni,nj))
                     visited[ni][nj] = visited[now[0]][now[1]] + 1
                 elif graph[ni][nj] != graph[i][j] :
                     if visited[now[0]][now[1]] < MIN:
                         MIN = visited[now[0]][now[1]]
-
                     return MIN
 
 lst = deque()
@@ -56,7 +56,7 @@ for i in range(N):
 for i,j in lst :
     bfs(i,j)
     visited = [[0 for _ in range(N)] for _ in range(N)]
-    for k,n in lst:
-        visited[k][n] = 1
 
-print(MIN-1)
+
+ans = MIN - 1
+print(ans)
