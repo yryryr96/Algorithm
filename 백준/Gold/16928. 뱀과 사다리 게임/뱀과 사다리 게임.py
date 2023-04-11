@@ -19,10 +19,9 @@ q.append(1)
 
 while q:
     now = q.popleft()
-    
     if now == 100 :
         print(visited[100])
-
+        break
     if dic.get(now,0) != 0 :
         visited[dic[now]] = visited[now]
         now = dic[now]
