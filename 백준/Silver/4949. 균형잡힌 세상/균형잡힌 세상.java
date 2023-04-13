@@ -16,31 +16,23 @@ public class Main {
                 if (ch[i] == '(') stack.push("(");
                 else if (ch[i] == '[') stack.push("[");
                 else if (ch[i] ==')') {
-                    if (stack.size() == 0){
+                    if (stack.size() == 0 || !stack.peek().equals("(")) {
                         temp = 0;
                         break;
                     }
-                    if (stack.peek().equals("(")) stack.pop();
-                    else {
-                        temp = 0;
-                        break;
-                    }
+                    else if (stack.peek().equals("(")) stack.pop();
                 }
+
                 else if (ch[i] == ']'){
-                    if (stack.size() == 0){
+                    if(stack.size() == 0 || !stack.peek().equals("[")) {
                         temp = 0;
                         break;
                     }
-                    if (stack.peek().equals("[")) stack.pop();
-                    else {
-                        temp = 0;
-                        break;
-                    }
+                    else if (stack.peek().equals("[")) stack.pop();
                 }
             }
             if (stack.size() > 0 || temp == 0) System.out.println("no");
             else System.out.println("yes");
         }
-
     }
 }
