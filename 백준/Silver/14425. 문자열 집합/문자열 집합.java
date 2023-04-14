@@ -10,19 +10,14 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
         int ans = 0;
-        String[] str = new String[n];
 
-        for (int i = 0; i <n ; i++) {
-            str[i] = br.readLine();
+        HashSet<String> set = new HashSet<>(n);
+        for (int i = 0; i < n ; i++) {
+            set.add(br.readLine());
         }
 
-        for (int i = 0; i <m ; i++) {
-            String check = br.readLine();
-            for (int j = 0; j <n ; j++) {
-                if (str[j].equals(check)) {
-                    ans +=1;
-                }
-            }
+        for (int i = 0; i < m ; i++) {
+            if (set.contains(br.readLine())) ans++;
         }
         System.out.print(ans);
     }
