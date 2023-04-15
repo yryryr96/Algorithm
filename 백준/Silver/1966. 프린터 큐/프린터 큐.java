@@ -13,7 +13,7 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             int n = Integer.parseInt(st.nextToken());
             int m = Integer.parseInt(st.nextToken());
-
+            int max = 0 ;
             st = new StringTokenizer(br.readLine());
             int[] arr = new int[n];
             int[] importance = new int[10];
@@ -23,10 +23,11 @@ public class Main {
                 arr[j] = num;
                 importance[num] += 1;
                 q.add(j);
+                if (num > max ) max = num ;
             }
 
             int cnt = 1;
-            int now = 9;
+            int now = max;
 
             while ( now >= arr[m]){
                 while( importance[now] > 0) {
