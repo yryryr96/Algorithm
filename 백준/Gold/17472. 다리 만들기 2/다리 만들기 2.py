@@ -2,7 +2,7 @@ import sys
 from collections import deque
 input = sys.stdin.readline
 
-def island(i,j,v):
+def island(i,j,v):  # 섬 나누기
     q = deque()
     q.append((i,j))
     visited[i][j] = 1
@@ -26,8 +26,7 @@ def union(a,b):
     b = find(b)
     parent[max(a,b)] = min(a,b)
 
-
-def dist(i,j,v):
+def dist(i,j,v):    # 섬 간 거리 구하기
     global edges
     for di,dj in point :
         ni,nj = i+di, j+dj
@@ -61,7 +60,7 @@ for i in range(n):
             island(i,j,k+1)
             k+=1
 
-parent = list(range(0,k+1))
+parent = list(range(k+1)) # 섬 개수만큼 만들기
 edges = set()
 for i in range(n):
     for j in range(m):
@@ -76,7 +75,7 @@ for c,a,b in edges:
         union(a,b)
         ans += c
 
-for i in range(1,k+1):
+for i in range(1,k+1):  #다른 그룹이 있다면 모든 섬이 연결된 것이 아님
     find(i)
 
 check = set(parent[1:])
