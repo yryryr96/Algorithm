@@ -57,7 +57,6 @@ for i,j in teacher :
 if len(check) < 3 :
     for p in check :
         graph[p[0]][p[1]] = 'O'
-
     for i,j in teacher :
         if not find(i,j) :
             print("NO")
@@ -65,12 +64,9 @@ if len(check) < 3 :
     else :
         print("YES")
 
-
 else:
     check = list(combinations(check,3))
     for p1,p2,p3 in check :
-        temp = 0
-
         graph[p1[0]][p1[1]] = 'O'
         graph[p2[0]][p2[1]] = 'O'
         graph[p3[0]][p3[1]] = 'O'
@@ -81,10 +77,7 @@ else:
                 graph[p3[0]][p3[1]] = 'X'
                 break
         else :
-            temp = 1
-
-        if temp == 1 :
             print("YES")
-            break;
+            break
     else :
         print("NO")
