@@ -17,10 +17,6 @@ for _ in range(m):
 
 
 def dijk():
-    for i in range(max_cost + 1):
-        for j in range(1, n + 1):
-            dist[i][j] = INF
-
     dist[0][s] = 0
     heapq.heappush(pq, (0, 0, s))
     while pq:
