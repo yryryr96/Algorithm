@@ -4,7 +4,7 @@ input = sys.stdin.readline
 
 n,m = map(int,input().split())
 graph = [list(input().rstrip()) for _ in range(n)]
-point = [[-1,0],[1,0],[0,-1],[0,1]] # 상,하,좌,우
+point = [[-1,0],[0,-1],[1,0],[0,1]] # 상,하,좌,우
 ans = sys.maxsize
 
 def dfs(map,d,cnt) : # 그래프, 방향, 몇 번
@@ -14,7 +14,7 @@ def dfs(map,d,cnt) : # 그래프, 방향, 몇 번
 
     temp = copy.deepcopy(map)
     check = 0
-    if d == 0 or d == 2 : # 상,좌
+    if d == 0 or d == 1 : # 상,좌
         for i in range(n):
             for j in range(m):
                 if temp[i][j] == 'R' or temp[i][j] == 'B' :
@@ -51,7 +51,7 @@ def dfs(map,d,cnt) : # 그래프, 방향, 몇 번
                             ni+=di
                             nj+=dj
 
-    if d == 1 or d == 3:  # 하,우
+    if d == 2 or d == 3:  # 하,우
         for i in range(n-1,-1,-1):
             for j in range(m-1,-1,-1):
                 if temp[i][j] == 'R' or temp[i][j] == 'B':
@@ -98,8 +98,9 @@ def dfs(map,d,cnt) : # 그래프, 방향, 몇 번
 
     else :
         for i in range(4):
-            if i != d :
-                dfs(temp,i,cnt+1)
+            if i == d or i == (d+2)%4 :
+                continue
+            dfs(temp,i,cnt+1)
 
 
 for i in range(4):
