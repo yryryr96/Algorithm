@@ -17,8 +17,8 @@ def dijk(s,distance):
                 distance[after[0]] = cost
                 heapq.heappush(q,(cost,after[0]))
 
-t= int(input())
-for _ in range(t) :
+T = int(input())
+for _ in range(T) :
     n,m,t = map(int,input().split())
     s,g,h = map(int,input().split())
     graph = [[] for _ in range(n+1)]
