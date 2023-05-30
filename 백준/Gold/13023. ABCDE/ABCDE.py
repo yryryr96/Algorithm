@@ -8,6 +8,8 @@ for _ in range(m):
     graph[a].append(b)
     graph[b].append(a)
 
+
+
 def dfs(v,cnt):
     if cnt == 5 :
         print(1)
@@ -19,7 +21,9 @@ def dfs(v,cnt):
             dfs(i,cnt+1)
             visited[i] = 0
 
+visited = [0]*n
 for i in range(n):
-    visited = [0]*n
-    dfs(i,0)
+    visited[i] = 1
+    dfs(i,1)
+    visited[i] = 0
 print(0)
