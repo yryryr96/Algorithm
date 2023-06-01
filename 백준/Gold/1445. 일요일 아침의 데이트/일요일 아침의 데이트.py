@@ -35,9 +35,9 @@ def dijk():
         tc, ta, i, j = heapq.heappop(q)
         # print(tc,ta,(i,j))
         # print(visited[i][j][0],visited[i][j][1])
-        # if i == ei and j == ej :
-        #     print(visited[ei][ej][0], visited[ei][ej][1])
-        #     return
+        if i == ei and j == ej :
+            print(visited[ei][ej][0], visited[ei][ej][1])
+            return
 
         if tc > visited[i][j][0] or (tc == visited[i][j][0] and ta > visited[i][j][1]): continue
 
