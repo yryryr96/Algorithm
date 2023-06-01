@@ -23,13 +23,8 @@ def dijk():
     global si,sj,ei,ej,tr
     q = []
     visited = [[[sys.maxsize,sys.maxsize] for _ in range(m)] for _ in range(n)]
-    visited[si][sj][0] = 0
-    if (si,sj) in tr :
-        visited[si][sj][1] = 1
-        heapq.heappush(q,(0,1,si,sj)) # 쓰레기, 쓰레기주위
-    else :
-        visited[si][sj][1] = 0
-        heapq.heappush(q,(0,0,si,sj))
+    visited[si][sj][0] = visited[si][sj][1] = 0
+    heapq.heappush(q,(0,0,si,sj))
 
     while q :
         tc, ta, i, j = heapq.heappop(q)
