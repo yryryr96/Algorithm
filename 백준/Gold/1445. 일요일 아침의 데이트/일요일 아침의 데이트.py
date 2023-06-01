@@ -33,8 +33,6 @@ def dijk():
 
     while q :
         tc, ta, i, j = heapq.heappop(q)
-        # print(tc,ta,(i,j))
-        # print(visited[i][j][0],visited[i][j][1])
         if i == ei and j == ej :
             print(visited[ei][ej][0], visited[ei][ej][1])
             return
@@ -64,7 +62,5 @@ def dijk():
                         if (ni,nj) in tr and ta+1 < visited[ni][nj][1] :
                             visited[ni][nj][0],visited[ni][nj][1] = tc,ta+1
                             heapq.heappush(q,(tc,ta+1,ni,nj))
-
-    print(visited[ei][ej][0], visited[ei][ej][1])
 
 dijk()
