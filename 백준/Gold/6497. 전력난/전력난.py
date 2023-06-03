@@ -17,7 +17,7 @@ while True :
         break
 
     edges = []
-    parent = list(range(m))
+    parent = [i for i in range(m)]
     total_dist = 0
     for _ in range(n):
         a,b,z = map(int,input().split())
@@ -26,8 +26,10 @@ while True :
 
     edges.sort()
     cost = 0
+    cnt = 0
     for dist,a,b in edges :
         if find(a) != find(b):
             union(a,b)
             cost += dist
+
     print(total_dist - cost)
