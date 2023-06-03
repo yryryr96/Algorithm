@@ -1,5 +1,5 @@
 import sys
-inpyt = sys.stdin.readline
+input = sys.stdin.readline
 
 def find(x):
     if parent[x] != x :
@@ -17,7 +17,7 @@ while True :
         break
 
     edges = []
-    parent = list(range(m+1))
+    parent = list(range(m))
     total_dist = 0
     for _ in range(n):
         a,b,z = map(int,input().split())
