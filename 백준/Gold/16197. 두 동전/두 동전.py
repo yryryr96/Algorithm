@@ -5,7 +5,7 @@ input = sys.stdin.readline
 n,m = map(int,input().split())
 graph = [list(input().rstrip()) for _ in range(n)]
 point = [[0,1],[1,0],[0,-1],[-1,0]]
-
+visited = [[[[0] * (m+1) for _ in range(n+1)] for _ in range(m+1)] for _ in range(n+1)]
 coin = []
 for i in range(n):
     for j in range(m):
@@ -40,8 +40,10 @@ while q :
                 coin.append((c2[0],c2[1],c2[2]+1))
             else :
                 coin.append((ki,kj,c2[2]+1))
-            # print(coin)
-            q.append(coin)
+
+            if not visited[coin[0][0]][coin[0][1]][coin[1][0]][coin[1][1]] :
+                visited[coin[0][0]][coin[0][1]][coin[1][0]][coin[1][1]] = 1
+                q.append(coin)
 else :
     print(-1)
 
