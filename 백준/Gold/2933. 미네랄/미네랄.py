@@ -30,14 +30,10 @@ def fallingDistance(fall,graph) :
     while True :
         for y,x in fall :
             if y+distance == r-1 :
-                temp = 1
-                break
+                return distance
             if graph[y+distance+1][x] == 'x' :
-                temp = 1
-                break
-        if temp : break
+                return distance
         distance += 1
-    return distance
 
 def moveMinerals(y,x) :
     ms = mineralState()
