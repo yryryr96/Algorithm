@@ -33,15 +33,12 @@ def move_wall(player) :
     nq = deque(nq)
     return nq
 
-
 q = deque()
 q.append((7,0))
 
 while q :
     nq = move_wall(q)
     q = nq
-    # for i in range(8):
-    #     print(*graph[i])
-    # # print(q)
+
 else :
     print(0)
