@@ -21,19 +21,21 @@ def dijkstra(A,B) :
     while q :
         md, d, node = heapq.heappop(q)
 
-        if md > ans or d > C or distance[node] < d : continue
-
         if node == B :
             ans = min(md,ans)
 
+        if distance[node] < d : continue
+
         for v,dist in graph[node] :
             cost = distance[node] + dist
-            if cost < distance[v] :
-                distance[v] = cost
-                heapq.heappush(q,(max(dist,md),cost,v))
+            k = max(md,dist)
+            if k < distance[v] and cost <= C:
+                distance[v] = k
+                heapq.heappush(q,(k,cost,v))
 
     return ans
 
 k = dijkstra(A,B)
 ans = k if k != sys.maxsize else -1
 print(ans)
+
