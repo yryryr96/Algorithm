@@ -1,19 +1,16 @@
+import java.util.*;
 class Solution {
     public int[] solution(int n) {
-        int[] answer;
-        int odd = 1;
-        if (n%2 == 0) {
-            answer = new int[n/2];
-        } else {
-            answer = new int[n/2 + 1];
+        
+        List<Integer> arr = new ArrayList<>();
+        
+        for (int i=0; i<=n; i++) {
+            
+            if (i%2 == 1) {
+                arr.add(i);
+            }
         }
         
-        for (int i=0; i<=answer.length-1; i++) {
-            answer[i] = odd;
-            odd += 2;
-        }
-        
-        return answer;
-        
+        return arr.stream().mapToInt(x->x).toArray();
     }
 }
