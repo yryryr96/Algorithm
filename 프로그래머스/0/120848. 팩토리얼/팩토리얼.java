@@ -5,7 +5,7 @@ class Solution {
         int i = 1;
         
         while (true) {
-            fac = factorial(i);
+            fac *= i;
             if (fac > n) {
                 break;
             }
@@ -15,12 +15,4 @@ class Solution {
         return answer;
     }
     
-    public static int factorial(int num) {
-        
-        int ans = 1;
-        for (int i=1; i<=num; i++) {
-            ans*=i;
-        }
-        return ans;
-    }
 }
