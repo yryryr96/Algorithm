@@ -1,23 +1,12 @@
 class Solution {
     public int solution(String my_string) {
         int answer = 0;
-        
-        String[] string_list = my_string.split("");
-        String word = "";
+        String newString = my_string.replaceAll("[a-zA-z]"," ");
+        String[] string_list = newString.split(" ");
         for (String s:string_list) {
-            if (s.matches("[^a-zA-z]")) {
-                word += s;
-            } else {
-                if (!word.isEmpty()) {
-                    answer += Integer.parseInt(word);
-                    word = "";    
-                }
-            }
+            if (!s.equals("")) answer += Integer.parseInt(s);
         }
         
-        if (!word.isEmpty()) {
-            answer += Integer.parseInt(word);
-        }
         return answer;
     }
 }
