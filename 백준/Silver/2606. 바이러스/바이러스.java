@@ -1,42 +1,52 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    static int[][] graph;
-    static boolean[] visited;
-    static StringTokenizer st;
+
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int computer = Integer.parseInt(br.readLine());
         int n = Integer.parseInt(br.readLine());
-        int m = Integer.parseInt(br.readLine());
-
-        graph = new int[n+1][n+1];
-        visited = new boolean[n+1];
-
-        for (int i = 0; i <m ; i++) {
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            graph[a][b] = graph[b][a] = 1;
+        boolean[] visited = new boolean[computer+1];
+        ArrayList<Integer>[] arr = new ArrayList[computer+1];
+        for (int i = 1; i < computer+1; i++) {
+            arr[i] = new ArrayList<Integer>();
         }
 
-        dfs(graph,1);
+        for (int i = 0; i <n; i++) {
+            String[] str = br.readLine().split(" ");
+            int a = sToI(str[0]);
+            int b = sToI(str[1]);
 
-        int ans = 0;
-        for (int i = 0; i <n+1 ; i++) {
-            if (visited[i]) ans += 1;
+            arr[a].add(b);
+            arr[b].add(a);
         }
-        System.out.println(ans-1);
 
+        visited[1] = true;
+        dfs(1, arr, visited);
+
+        int answer = 0;
+        for (int i = 2; i < computer+1; i++) {
+            if (visited[i]) answer++;
+        }
+
+        System.out.println(answer);
+    }
+    public static int sToI (String str) {
+        return Integer.parseInt(str);
     }
 
-    public static void dfs(int[][] arr, int n){
-        visited[n] = true;
+    public static void dfs(int i, ArrayList<Integer>[] arr, boolean[] visited) {
 
-        for (int i = 0; i < arr.length ; i++) {
-            if (arr[n][i] == 1 && !visited[i]){
-                dfs(arr,i);
+        ArrayList<Integer> graph = arr[i];
+        for (int j : graph) {
+            if (!visited[j]) {
+                visited[j] = true;
+                dfs(j, arr, visited);
             }
         }
     }
+
 }
