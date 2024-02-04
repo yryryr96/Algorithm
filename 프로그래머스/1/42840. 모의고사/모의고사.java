@@ -14,10 +14,15 @@ class Solution {
             if (ans == three[i%10]) rank[2]++;
         }
 
-        int max = Arrays.stream(rank).max().getAsInt();
+        int max = Math.max(rank[0], Math.max(rank[1], rank[2]));
         for (int l = 0; l < 3; l++) {
             if (rank[l] == max) answer.add(l+1);
         }
-        return answer.stream().mapToInt(x->x).toArray();
+        
+        int[] list = new int[answer.size()];
+        for (int i=0; i<answer.size(); i++) {
+            list[i] = answer.get(i);
+        }
+        return list;
     }
 }
