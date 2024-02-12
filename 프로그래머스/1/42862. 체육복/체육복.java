@@ -5,7 +5,6 @@ class Solution {
         int[] total = new int[n+1];
         
         Arrays.fill(total, 1);
-        Arrays.sort(lost);
         
         for (int i : lost) {
             total[i] -= 1;
@@ -15,7 +14,7 @@ class Solution {
             total[i] += 1;
         }
 
-        for (int i : lost) {
+        for (int i = 0; i < total.length; i++) {
             if (total[i] == 0) {
                 if (total[i-1] == 2) {
                     total[i] += 1;
