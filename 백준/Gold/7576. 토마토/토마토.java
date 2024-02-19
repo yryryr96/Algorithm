@@ -9,7 +9,7 @@ public class Main {
     static int[][] visited;
     static String[][] map;
     static BufferedReader br;
-    static Queue<Pair> q = new LinkedList<>();
+    static Queue<Pair> q = new ArrayDeque<>();
     static int n;
     static int m;
     static int ans;
