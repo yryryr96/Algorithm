@@ -19,6 +19,7 @@ public class Main {
             parent[i] = i;
         }
 
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int t = Integer.parseInt(st.nextToken());
@@ -28,10 +29,11 @@ public class Main {
             if (t == 0) {
                 union(a,b);
             } else {
-                String ans = isSameParent(a,b) ? "YES" : "NO";
-                System.out.println(ans);
+                sb.append(isSameParent(a,b) ? "YES" : "NO").append("\n");
             }
         }
+
+        System.out.println(sb.toString());
     }
 
     static int find(int x) {
