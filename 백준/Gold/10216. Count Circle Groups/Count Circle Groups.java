@@ -33,8 +33,8 @@ public class Main {
             }
 
             for (int j = 0; j < n; j++) {
-                for (int k = 0; k < n; k++) {
-                    if (j != k) union(j,k);
+                for (int k = j+1; k < n; k++) {
+                    union(j,k);
                 }
             }
 
