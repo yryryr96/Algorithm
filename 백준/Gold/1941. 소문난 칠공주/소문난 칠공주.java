@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
 
     // 7개의 연속된 블럭 중에 S가 최소 4개이상인 경우의 수
-
+    // 25개 중 7개 조합 구하기 dfs -> 7개 좌표가 이어지는지 bfs
     static int n = 5;
     static int m = 5;
     static int[] di = {0,1,0,-1};
