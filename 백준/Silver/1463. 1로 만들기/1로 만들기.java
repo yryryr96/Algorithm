@@ -1,40 +1,22 @@
 import java.io.*;
 import java.util.*;
 
-public class Main{
+public class Main {
+
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         int n = Integer.parseInt(br.readLine());
-        int[] dp = new int[n+1];
-        Deque<Integer> q = new ArrayDeque<>();
-        q.push(n);
+        int[] d = new int[(int)Math.pow(10,6) + 2];
 
-        while(!q.isEmpty()){
-            int num = q.removeFirst();
-//            System.out.println(num);
-            if (num == 1) {
-                System.out.println(dp[1]);
-                break;
-            }
+        for (int i = 2; i <= n; i++) {
 
-            if (num%2 == 0 ){
-                if (dp[num/2] == 0 || dp[num/2] > dp[num] + 1){
-                    dp[num/2] = dp[num] + 1;
-                    q.add(num/2);
-                }
-            }
-
-            if (num%3 == 0 ){
-                if (dp[num/3] == 0 || dp[num/3] > dp[num] + 1){
-                    dp[num/3] = dp[num] + 1;
-                    q.add(num/3);
-                }
-            }
-            if (dp[num-1] == 0 || dp[num-1] > dp[num] + 1){
-                dp[num-1] = dp[num] + 1;
-                q.add(num-1);
-            }
+            d[i] = d[i-1] + 1;
+            if (i%2 == 0) d[i] = Math.min(d[i], d[i/2] + 1);
+            if (i%3 == 0) d[i] = Math.min(d[i], d[i/3] + 1);
         }
 
+        System.out.println(d[n]);
     }
 }
