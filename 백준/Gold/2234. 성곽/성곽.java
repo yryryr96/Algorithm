@@ -118,16 +118,17 @@ public class Main {
         List<Integer> directions = new ArrayList<>();
         boolean[] visited = new boolean[4];
 
-        while (v > 0) {
-            for (int k = 3; k >= 0; k--) {
-                int value = (int) Math.pow(2,k);
-                if (value <= v) {
-                    visited[k] = true;
-                    v -= value;
-                    break;
-                }
+        
+        for (int k = 3; k >= 0; k--) {
+            int value = (int) Math.pow(2,k);
+            if (value <= v) {
+                visited[k] = true;
+                v -= value;                 
             }
+            
+            if (v <= 0) break;
         }
+        
 
         for (int k = 0; k < visited.length; k++) {
             if (!visited[k]) directions.add(k);
