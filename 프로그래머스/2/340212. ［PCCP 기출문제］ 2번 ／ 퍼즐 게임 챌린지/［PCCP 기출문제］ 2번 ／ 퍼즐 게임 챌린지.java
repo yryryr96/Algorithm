@@ -24,11 +24,11 @@ class Solution {
             
             if (canSolve(diffs, times, curLevel)) {
                 MAX_LEVEL = curLevel;
-                curLevel = (MAX_LEVEL + MIN_LEVEL) / 2;
             } else {
                 MIN_LEVEL = curLevel + 1;
-                curLevel = (MAX_LEVEL + MIN_LEVEL) / 2;
             }
+            
+            curLevel = (MAX_LEVEL + MIN_LEVEL) / 2;
         }
         
         return curLevel;
