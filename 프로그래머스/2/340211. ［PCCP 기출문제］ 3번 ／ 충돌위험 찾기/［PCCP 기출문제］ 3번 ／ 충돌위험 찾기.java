@@ -1,116 +1,97 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 class Solution {
-    private class Robot {
-        private int r;
-        private int c;
-        private int nextStopover;
 
-        public Robot(int r, int c, int nextStopover) {
-            this.r = r;
-            this.c = c;
-            this.nextStopover = nextStopover;
-        }
-
-        public void moveToTarget(int targetR, int targetC) {
-            if (r < targetR) {
-                r++;  
-                return;
-            } else if (r > targetR) {
-                r--; 
-                return;
-            }
-
-            if (c < targetC) {
-                c++; 
-            } else if (c > targetC) {
-                c--;  
-            }
-        }
-
-        public boolean hasArrived(int targetR, int targetC) {
-            return r == targetR && c == targetC;
-        }
-
-        public void stopoverPlus() {
-            nextStopover++;
-        }
-    }
-
+    static Queue<int[]>[] qList;
+    static int robotCnt;
+    
     public int solution(int[][] points, int[][] routes) {
-        int routeStep = routes[0].length;
-        List<Robot> robots = new ArrayList<>();
-        Map<Integer, Integer> startCollisions = new HashMap<>();
-
-        // 로봇 초기화 및 시작 충돌 체크
-        for (int[] route : routes) {
-            int startPoint = route[0] - 1;
-            int r = points[startPoint][0];
-            int c = points[startPoint][1];
-            robots.add(new Robot(r, c, 1));
-            startCollisions.merge(route[0], 1, Integer::sum);
+        int answer = 0;    
+        
+        robotCnt = routes.length;
+        qList = new LinkedList[routes.length];
+        for (int i = 0; i < robotCnt; i++) {
+            qList[i] = new LinkedList<>();
         }
-
-        int result = 0;
-
-        // 시작 충돌 체크 결과 업데이트
-        for (Integer value : startCollisions.values()) {
-            if (value > 1) {
-                result++;
-            }
+        
+        for (int i = 0; i < robotCnt; i++) {
+            move(i, routes[i], points);
         }
-
-        while (!robots.isEmpty()) {
-            Map<String, Integer> collisionMap = new HashMap<>();
-            boolean[] arrived = new boolean[robots.size()];
-
-            for (int i = 0; i < robots.size(); i++) {
-                Robot robot = robots.get(i);
-                int nextStopover = robot.nextStopover;
-
-                if (nextStopover >= routeStep) {
-                    arrived[i] = true;
+        
+        answer = getAnswer();
+        return answer;
+    }
+    
+    static int getAnswer() {
+        
+        int ans = 0;
+        int count = 0;
+        
+        
+        while (count != robotCnt) {
+            
+            int[][] history = new int[100][100];
+            count = 0;
+            
+            for (int k = 0; k < robotCnt; k++) {            
+                
+                if(qList[k].isEmpty()) {
+                    count++;
                     continue;
                 }
-
-                int pointIndex = routes[i][nextStopover] - 1;
-                int targetR = points[pointIndex][0];
-                int targetC = points[pointIndex][1];
-
-                robot.moveToTarget(targetR, targetC);
-
-                String posKey = robot.r + " " + robot.c;
-                collisionMap.merge(posKey, 1, Integer::sum);
-
-                if (robot.hasArrived(targetR, targetC)) {
-                    robot.stopoverPlus();
+                
+                int[] p = qList[k].poll();
+                history[p[0]][p[1]]++;   
+            }
+            
+            for (int i = 0; i < 100; i++) {
+                for (int j = 0; j < 100; j++) {
+                    if (history[i][j] > 1) {
+                        // System.out.println("i = " + i + " j = " + j);
+                        ans++;
+                    }
                 }
-            }
-
-            // 충돌 처리
-            for (Integer value : collisionMap.values()) {
-                if (value > 1) {
-                    result++;
-                }
-            }
-
-            // 모든 로봇이 목적지에 도착했는지 확인
-            boolean allArrived = true;
-            for (boolean arrivedStatus : arrived) {
-                if (!arrivedStatus) {
-                    allArrived = false;
-                    break;
-                }
-            }
-
-            if (allArrived) {
-                break;
-            }
+            } 
         }
 
-        return result;
+        return ans;
+    }
+    
+    static void move(int num, int[] route, int[][] points) {
+        
+        int aim = 0;
+        int ci = points[route[aim] - 1][0] - 1;
+        int cj = points[route[aim] - 1][1] - 1;
+        qList[num].add(new int[]{ci,cj});        
+        
+        aim++;
+        
+        while (aim < route.length) {
+            
+            int point = route[aim] - 1;
+            int ni = points[point][0] - 1;
+            int nj = points[point][1] - 1;
+            
+            if (ni != ci) {
+                if (ni > ci) {
+                    ci++;
+                } else {
+                    ci--;
+                }
+            } else if (nj != cj) {
+                if (nj > cj) {
+                    cj++;
+                } else {
+                    cj--;
+                }
+            }
+            
+            if (ni == ci && nj == cj) {
+                aim++;
+            }
+            
+            qList[num].add(new int[]{ci,cj});
+            // System.out.println(time);
+        }
     }
 }
