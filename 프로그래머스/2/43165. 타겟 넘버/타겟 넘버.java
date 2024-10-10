@@ -1,27 +1,25 @@
 import java.util.*;
 class Solution {
     
-    static boolean[] visited;
     static int n;
-    static int cnt = 0;
+    static int answer = 0;
     
     public int solution(int[] numbers, int target) {
-        int answer = 0;
+        
         n = numbers.length;
-        visited = new boolean[numbers.length];
         dfs(0, 0, numbers, target);
-        answer = cnt;
         return answer;
     }
     
-    private static void dfs(int depth, int value, int[] numbers, int target) {
-
-        if (depth == n) {
-            if (value == target) cnt++;
+    static void dfs(int depth, int v, int[] numbers, int target) {
+        
+        if(depth == n) {
+            if (v == target) answer++;
             return;
         }
-
-        dfs(depth+1, value+numbers[depth], numbers, target);
-        dfs(depth+1, value-numbers[depth], numbers, target);
+        
+        // System.out.println(v);
+        dfs(depth + 1, v + numbers[depth], numbers, target);
+        dfs(depth + 1, v - numbers[depth], numbers, target);
     }
 }
