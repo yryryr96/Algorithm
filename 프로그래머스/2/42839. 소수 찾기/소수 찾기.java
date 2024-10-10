@@ -1,51 +1,52 @@
 import java.util.*;
 class Solution {
     
-    static ArrayList<String> arr = new ArrayList<>();
-    static int n;
+    static Set<Integer> checkList = new HashSet<>();
+    static int size = 0;
+    static String[] nums;
     static boolean[] visited;
     
     public int solution(String numbers) {
         
         int answer = 0;
         
-        n = numbers.length();
-        visited = new boolean[n];
-        String[] str = numbers.split("");
-        ArrayList<Integer> nums = new ArrayList<>();
-        dfs("", str);
-        for (int i = 0; i < arr.size(); i++) {
-            int num = Integer.parseInt(arr.get(i));
-            if (!nums.contains(num)) nums.add(num);
+        nums = numbers.split("");
+        size = nums.length;
+        visited = new boolean[size];
+        
+        dfs("");
+        for (Integer n : checkList) {
+            if (isPrime(n)) {
+                System.out.println(n);
+                answer++;
+            }
         }
-
-        for (Integer num : nums) {
-            if (check(num)) answer++;
-        }
+        
         return answer;
     }
     
-    private static void dfs(String word, String[] str) {
-
-        if (word.length() == n) {
+    static void dfs(String word) {
+        
+        if (word.length() == size) {
             return;
         }
-
-        for (int i = 0; i < str.length; i++) {
+        
+        for(int i = 0; i < size; i++) {
             if (!visited[i]) {
-
+                
                 visited[i] = true;
-                arr.add(word + str[i]);
-                dfs(word + str[i], str);
+                checkList.add(Integer.parseInt(word+nums[i]));
+                dfs(word + nums[i]);
                 visited[i] = false;
             }
         }
     }
     
-    private static boolean check(Integer num) {
-
-        if (num <= 1) return false;
-        for (int i = 2; i < num; i++) {
+    static boolean isPrime(int num) {
+        
+        if(num == 0 || num == 1) return false;
+        
+        for (int i = 2; i <= Math.sqrt(num); i++) {
             if (num % i == 0) return false;
         }
         return true;
