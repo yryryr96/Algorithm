@@ -1,28 +1,26 @@
 import java.util.*;
 class Solution {
     
-    static String[] vowels = {"A","E","I","O","U"};
-    static ArrayList<String> dic = new ArrayList<>();
+    static List<String> dictionary = new ArrayList<>();
+    static String[] strs = {"A", "E", "I", "O", "U"};
+    static int n = 5;
+    static boolean[] visited = new boolean[n];
     
     public int solution(String word) {
-        int answer = 0;
-        comb("");
-        answer = dic.indexOf(word) + 1;
+        
+        dfs("");
+        int answer = dictionary.indexOf(word) + 1;
         return answer;
     }
     
-    private static void comb(String word) {
-
-        if (word.length() == 5) {
-            return;
-        }
-
-        for (int i = 0; i < vowels.length; i++) {
-            String str = word + vowels[i];
-            if (!dic.contains(str)) {
-                dic.add(str);
-                comb(str);
-            }
+    static void dfs(String word) {
+        
+        if (word.length() >= n) return;
+        
+        for(int i = 0; i < n; i++) {
+            dictionary.add(word + strs[i]);
+            dfs(word + strs[i]);
         }
     }
+
 }
