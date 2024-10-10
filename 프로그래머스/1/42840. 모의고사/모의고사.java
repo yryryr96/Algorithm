@@ -1,28 +1,59 @@
 import java.util.*;
 class Solution {
     public int[] solution(int[] answers) {
-        int[] one = {1, 2, 3, 4, 5};
-        int[] two = { 2, 1, 2, 3, 2, 4, 2, 5};
-        int[] three = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
-        int[] rank = new int[3];
-        ArrayList<Integer> answer = new ArrayList<>();
-
-        for (int i = 0; i < answers.length; i++) {
+        
+        int size = answers.length;
+        
+        int[] answerCnt = new int[]{0,0,0};
+        int[] one = new int[]{1,2,3,4,5};
+        int[] two = new int[]{2,1,2,3,2,4,2,5};
+        int[] three = new int[]{3,3,1,1,2,2,4,4,5,5};
+        
+        List<int[]> arr = new ArrayList<>();
+        
+        for(int i = 0; i < size; i++) {
+            
             int ans = answers[i];
-            if (ans == one[i%5]) rank[0]++;
-            if (ans == two[i%8]) rank[1]++;
-            if (ans == three[i%10]) rank[2]++;
-        }
-
-        int max = Math.max(rank[0], Math.max(rank[1], rank[2]));
-        for (int l = 0; l < 3; l++) {
-            if (rank[l] == max) answer.add(l+1);
+            
+            if(one[i%one.length] == ans) {
+                answerCnt[0]++;
+            }
+            if (two[i%two.length] == ans) {
+                answerCnt[1]++;                
+            }
+            if (three[i%three.length] == ans) {
+                answerCnt[2]++;                
+            }
         }
         
-        int[] list = new int[answer.size()];
-        for (int i=0; i<answer.size(); i++) {
-            list[i] = answer.get(i);
+        int maxValue = 0;
+        int cnt = 0;
+        
+        for (int i = 0; i < 3; i++) {
+            
+            int v = answerCnt[i];
+            
+            arr.add(new int[]{i+1, v});
+            if (maxValue < v) {
+                maxValue = v;
+                cnt = 1;
+            } else if (maxValue == v) {
+                cnt++;
+            }
         }
-        return list;
+        
+        List<Integer> ans = new ArrayList<>();
+        for(int i = 0; i < 3; i++) {
+            if (answerCnt[i] == maxValue) {
+                ans.add(i+1);
+            }
+        }
+        
+        int[] a = new int[ans.size()];
+        for(int i = 0; i < ans.size(); i++) {
+            a[i] = ans.get(i);
+        }
+        
+        return a;
     }
 }
