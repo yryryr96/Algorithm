@@ -1,48 +1,59 @@
 import java.util.*;
 class Solution {
+    
     static int[] visited;
-    public int solution(String begin, String target, String[] words) {
-        int answer = 0;
-        Queue<Integer> q = new LinkedList<>();
+    static int n;
 
-        visited = new int[words.length];
-        for (int i = 0; i < words.length; i++) {
-            if (visited[i] == 0 && check(begin, words[i])) {
+    public int solution(String begin, String target, String[] words) {
+        
+        n = words.length;
+        visited = new int[n];
+        int answer = bfs(begin, target, words);
+        
+        return answer;
+    }
+    
+    static int bfs(String begin, String target, String[] words) {
+        
+        Queue<Integer> q = new LinkedList<>();
+ 
+        for(int i = 0; i < n; i++) {
+            if(canChange(begin, words[i])) {
                 visited[i] = 1;
-                q.offer(i);
+                q.add(i);
             }
         }
-        while (!q.isEmpty()) {
-            Integer idx = q.poll();
-            if (words[idx].equals(target)) {
-                answer = visited[idx];
-                break;
-            }
 
-            for (int i = 0; i < words.length; i++) {
-                if (visited[i] == 0 && check(words[idx], words[i])) {
-                    visited[i] = visited[idx] + 1;
-                    q.offer(i);
+        while(!q.isEmpty()) {
+            
+            Integer curIdx = q.poll();
+            
+            if(words[curIdx].equals(target)) {
+                return visited[curIdx];
+            }
+            
+            for(int i = 0; i < n; i++) {
+                if(curIdx != i && visited[i] == 0 && canChange(words[curIdx], words[i])) {
+                    visited[i] = visited[curIdx] + 1;
+                    q.add(i);
                 }
             }
         }
-        return answer;
+        
+        return 0;
     }
-
-    public static boolean check(String begin, String candidate) {
-
-        if (begin.length() != candidate.length()) {
-            return false;
+    
+    static boolean canChange(String a, String b) {
+        
+        int size = a.length();
+        int cnt = 0;
+        for(int i = 0; i < size; i++) {
+            char ca = a.charAt(i);
+            char cb = b.charAt(i);
+            if(ca != cb) cnt++;
+            if(cnt > 1) return false;
         }
-
-        int l = begin.length();
-        int temp = 0;
-
-        for (int i = 0; i < l; i++) {
-            if (begin.charAt(i) != candidate.charAt(i)) temp++;
-            if (temp > 1) return false;
-        }
-
-        return temp == 1;
+        
+        return true;
     }
 }
