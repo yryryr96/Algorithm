@@ -1,44 +1,40 @@
 import java.util.*;
 class Solution {
+    
+    static PriorityQueue<Integer> maxQ = new PriorityQueue<>((a,b) -> b-a);
+    static PriorityQueue<Integer> minQ = new PriorityQueue<>();
+    
     public int[] solution(String[] operations) {
         
-        PriorityQueue<Integer> minQ = new PriorityQueue<>();
-        PriorityQueue<Integer> maxQ = new PriorityQueue<>(Collections.reverseOrder());
-        int iCnt = 0;
-        int dCnt = 0;
-
-        for (String operation : operations) {
-
-            String[] str = operation.split(" ");
-            String command = str[0];
-            int num = Integer.parseInt(str[1]);
-
-            if (command.equals("I")) {
-                minQ.add(num);
-                maxQ.add(num);
-                iCnt++;
-            }
-
-            else if (iCnt > dCnt && command.equals("D")) {
-                dCnt++;
-                if (num == -1) {
-                    Integer v = minQ.poll();
-                    maxQ.remove(v);
-
-                } else {
-                    Integer v = maxQ.poll();
-                    minQ.remove(v);
-                }
-            }
+        for(String operation : operations) {
+        
+            String[] command = operation.split(" ");
+            String c = command[0];
+            int num = Integer.parseInt(command[1]);
+            
+            if (c.equals("I")) insert(num);
+            else delete(num);
         }
-
-        int[] answer;
-        if (iCnt == dCnt) {
-            answer = new int[]{0,0};
-        } else {
-            answer = new int[]{maxQ.peek(), minQ.peek()};
+                
+        return (maxQ.isEmpty() || minQ.isEmpty()) ? new int[]{0,0} : new int[]{maxQ.poll(), minQ.poll()};
+    }
+    
+    static void insert(int num) {
+        minQ.add(num);
+        maxQ.add(num);
+    }
+    
+    static void delete(int flag) {
+        
+        if (maxQ.isEmpty() || minQ.isEmpty()) return;
+        
+        if (flag == 1) {
+            int v = maxQ.poll();
+            minQ.remove(v);
+        } 
+        else {
+            int v = minQ.poll();
+            maxQ.remove(v);
         }
-
-        return answer;
     }
 }
