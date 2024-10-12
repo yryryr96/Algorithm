@@ -9,9 +9,9 @@ class Solution {
             lose[res[1]][res[0]] = true;
         }
 
-        for (int i = 1; i < n+1; i++) {
-            for (int j = 1; j < n+1; j++) {
-                for (int k = 1; k < n+1; k++) {
+        for (int k = 1; k < n+1; k++) {
+            for (int i = 1; i < n+1; i++) {
+                for (int j = 1; j < n+1; j++) {
                     
                     if (i == j) continue;
                     if (win[i][k] && win[k][j]) {
