@@ -1,72 +1,73 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
 
-    static int V,E;
-    static int K;
-    static List<List<Node>> edgeInfo = new ArrayList<>();
+    static int v, e, k;
+    static PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]);
+    static List<int[]>[] graph;
+    static int INF = 5_000_000;
     static int[] distance;
-    static class Node {
-        int num, distance;
-
-        Node (int num, int distance) {
-            this.num = num;
-            this.distance = distance;
-        }
-    }
-
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        V = Integer.parseInt(st.nextToken());
-        E = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(br.readLine());
-        distance = new int[V+1];
-        Arrays.fill(distance, Integer.MAX_VALUE);
+        v = stoi(st.nextToken());
+        e = stoi(st.nextToken());
+        k = stoi(br.readLine());
 
-        for (int i = 0; i < V+1; i++) {
-            edgeInfo.add(new ArrayList<>());
+        graph = new ArrayList[v+1];
+        distance = new int[v+1];
+
+        for(int i = 0; i < v+1; i++) {
+            graph[i] = (new ArrayList<int[]>());
         }
 
-        for (int i = 0; i < E; i++) {
+        for(int i = 0; i < e; i++) {
             st = new StringTokenizer(br.readLine());
-            int u = Integer.parseInt(st.nextToken());
-            int v = Integer.parseInt(st.nextToken());
-            int w = Integer.parseInt(st.nextToken());
+            int u = stoi(st.nextToken());
+            int v = stoi(st.nextToken());
+            int w = stoi(st.nextToken());
 
-            edgeInfo.get(u).add(new Node(v,w));
+            graph[u].add(new int[]{v,w});
         }
 
-        dijkstra();
+        for(int i = 1; i < v+1; i++) {
+            distance[i] = INF;
+        }
+
+        distance[k] = 0;
+        pq.add(new int[]{0,k});
+
+        while(!pq.isEmpty()) {
+
+            int[] cur = pq.poll();
+
+            if(distance[cur[1]] < cur[0]) continue;
+
+            for(int[] next : graph[cur[1]]) {
+                int cost = cur[0] + next[1];
+                if (cost < distance[next[0]]) {
+                    distance[next[0]] = cost;
+                    pq.add(new int[]{cost, next[0]});
+                }
+            }
+        }
+
         StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < V+1; i++) {
-            sb.append(distance[i] != Integer.MAX_VALUE ? distance[i] : "INF").append("\n");
+        for(int i = 1; i < v+1; i++) {
+            if(distance[i] >= INF) {
+                sb.append("INF").append("\n");
+            } else {
+                sb.append(distance[i]).append("\n");
+            }
         }
 
         System.out.println(sb.toString());
     }
 
-    static void dijkstra() {
-
-        PriorityQueue<Node> q = new PriorityQueue<>((a,b) -> a.distance - b.distance);
-        q.add(new Node(K,0));
-        distance[K] = 0;
-
-        while(!q.isEmpty()) {
-
-            Node node = q.poll();
-            if (node.distance < distance[node.num]) continue;
-
-            for (Node next : edgeInfo.get(node.num)) {
-                int cost = distance[node.num] + next.distance;
-                if (distance[next.num] > cost) {
-                    q.add(new Node(next.num, cost));
-                    distance[next.num] = cost;
-                }
-            }
-        }
+    static int stoi(String s) {
+        return Integer.parseInt(s);
     }
 }
