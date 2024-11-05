@@ -36,10 +36,7 @@ class Solution {
                     int nCop = Math.min(j + problems[k][3], maxCop);
                     int t = problems[k][4];
                     
-                    if(time[nAlp][nCop] > time[i][j] + t) {
-                        // System.out.println(time[i][j] + " t : " + t);
-                        time[nAlp][nCop] = time[i][j] + t;
-                    }
+                    time[nAlp][nCop] = Math.min(time[nAlp][nCop], time[i][j] + t);
                 }
             }
         }
