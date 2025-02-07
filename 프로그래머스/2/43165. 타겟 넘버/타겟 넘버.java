@@ -1,25 +1,33 @@
 import java.util.*;
+
 class Solution {
     
-    static int n;
-    static int answer = 0;
+    static int TARGET_NUMBER;
+    static int[] NUMBERS;
+    static int ANSWER = 0;
+    static int NUMBERS_SIZE;
     
     public int solution(int[] numbers, int target) {
         
-        n = numbers.length;
-        dfs(0, 0, numbers, target);
-        return answer;
+        NUMBERS = numbers;
+        TARGET_NUMBER = target;
+        NUMBERS_SIZE = numbers.length;
+        
+        dfs(0, 0);
+        
+        return ANSWER;
     }
     
-    static void dfs(int depth, int v, int[] numbers, int target) {
-        
-        if(depth == n) {
-            if (v == target) answer++;
+    static void dfs(int depth, int value) {
+        if (depth == NUMBERS_SIZE) {
+            if (value == TARGET_NUMBER) {
+                ANSWER++;
+            }
             return;
         }
         
-        // System.out.println(v);
-        dfs(depth + 1, v + numbers[depth], numbers, target);
-        dfs(depth + 1, v - numbers[depth], numbers, target);
+        int nextValue = NUMBERS[depth];
+        dfs(depth+1, value + nextValue);
+        dfs(depth+1, value - nextValue);
     }
 }
