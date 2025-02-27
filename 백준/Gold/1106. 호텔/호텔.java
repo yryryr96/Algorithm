@@ -28,13 +28,13 @@ public class Main {
             cities[i] = new City(expense, customer);
         }
 
-        int[] dp = new int[1101];
-        Arrays.fill(dp, 10000000);
+        int[] dp = new int[C+101];
+        Arrays.fill(dp, 100_000);
         for (int i = 1; i <= N; i++) {
             City city = cities[i];
             dp[city.customer] = Math.min(dp[city.customer], city.expense);
 
-            for (int j = 1; j < 1101; j++) {
+            for (int j = 1; j <= C+100; j++) {
                 if (city.customer > j) {
                     continue;
                 }
@@ -44,7 +44,7 @@ public class Main {
         }
 
         int answer = Integer.MAX_VALUE;
-        for (int i = C; i < 1101; i++) {
+        for (int i = C; i < C+100; i++) {
             answer = Math.min(answer, dp[i]);
         }
 
