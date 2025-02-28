@@ -32,35 +32,17 @@ public class Main {
 
         for (int j = 1; j <= n; j++) {
             Coin coin = coins[j];
-
-//            for (int i = 0; i <= coin.value; i++) {
-//                C[i][j] = C[i][j-1];
-//            }
-            if (coin.value <= k) {
-                for (int i = 0; i <= coin.value; i++) {
-                    C[i][j] = C[i][j-1];
-                }
-                C[coin.value][j] = 1;
-            } else {
-                for (int i = 0; i <= k; i++) {
-                    C[i][j] = C[i][j-1];
-                }
+            for (int i = 0; i <= Math.min(coin.value, k); i++) {
+                C[i][j] = C[i][j-1];
             }
 
-            if (coin.value + 1 > k) continue;
+            if (coin.value > k) continue;
+
+            C[coin.value][j] = 1;
             for (int i = coin.value + 1; i <= k; i++) {
                 C[i][j] = Math.min(C[i][j-1], C[i-coin.value][j] + 1);
             }
         }
-
-//        StringBuilder sb = new StringBuilder();
-//        for (int i = 0; i < k+1; i++) {
-//            for (int j = 0; j < n+1; j++) {
-//                sb.append(C[i][j]).append(" ");
-//            }
-//            sb.append("\n");
-//        }
-//        System.out.println(sb.toString());
 
         int answer = LIMIT;
         for (int i = 0; i <= n; i++) {
