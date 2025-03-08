@@ -13,9 +13,22 @@ public class Main {
         int N = stoi(st.nextToken());
         int M = stoi(st.nextToken());
 
-        int height = (H-1) / (N+1) + 1;
-        int width = (W-1) / (M+1) + 1;
-        int answer = height * width;
+        int rowCount = H / (N+1);
+        int colCount = W / (M+1);
+
+        int rowRemain = H % (N + 1);
+        int colRemain = W % (M + 1);
+
+        if (rowRemain != 0 && colRemain != 0) {
+            rowCount++;
+            colCount++;
+        } else if(rowRemain != 0 && colRemain == 0) {
+            rowCount++;
+        } else if(rowRemain == 0 && colRemain != 0) {
+            colCount++;
+        }
+
+        int answer = rowCount * colCount;
         System.out.println(answer);
     }
 
@@ -23,3 +36,4 @@ public class Main {
         return Integer.parseInt(s);
     }
 }
+
