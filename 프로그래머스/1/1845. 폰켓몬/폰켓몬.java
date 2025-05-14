@@ -1,12 +1,21 @@
 import java.util.*;
+
 class Solution {
     public int solution(int[] nums) {
         int answer = 0;
-        HashSet<Integer> set = new HashSet<>();
-
-        int pocketmon = nums.length/2;
-        for (int num : nums) set.add(num);
-        answer = pocketmon >= set.size() ? set.size() : pocketmon;
+        
+        Set<Integer> set = new HashSet<>();
+        for(int num : nums) {
+            set.add(num);
+        }
+        
+        int length = nums.length;
+        if (set.size() >= length / 2) {
+            answer = length / 2;
+        } else {
+            answer = set.size();
+        }
+        
         return answer;
     }
 }
