@@ -2,32 +2,29 @@ import java.util.*;
 
 class Solution {
     
-    static int TARGET_NUMBER;
-    static int[] NUMBERS;
-    static int ANSWER = 0;
-    static int NUMBERS_SIZE;
-    
+    static int answer = 0;
+    static int T;
     public int solution(int[] numbers, int target) {
         
-        NUMBERS = numbers;
-        TARGET_NUMBER = target;
-        NUMBERS_SIZE = numbers.length;
+        T = target;
+        dfs(0, 0, 0, numbers);
         
-        dfs(0, 0);
-        
-        return ANSWER;
+        return answer;
     }
     
-    static void dfs(int depth, int value) {
-        if (depth == NUMBERS_SIZE) {
-            if (value == TARGET_NUMBER) {
-                ANSWER++;
+    static void dfs(int depth, int idx, int value, int[] numbers) {
+        
+        if (depth == numbers.length) {
+            
+            if (value == T) {
+                answer++;
             }
             return;
         }
         
-        int nextValue = NUMBERS[depth];
-        dfs(depth+1, value + nextValue);
-        dfs(depth+1, value - nextValue);
+        for(int i = idx; i < numbers.length; i++) {
+            dfs(depth+1, i+1, value + numbers[i], numbers);
+            dfs(depth+1, i+1, value - numbers[i], numbers);
+        }
     }
 }
