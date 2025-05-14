@@ -1,43 +1,62 @@
-class Solution {
-        
-    static boolean[][] visited;
-    static int cnt;
+import java.util.*;
 
+class Solution {
+    
+    static boolean[] visited;
+    static int answer = 10000;
+    static int N;
     public int solution(int n, int[][] wires) {
-        int answer = 0;
-        int min = 9999;
-        visited = new boolean[n+1][n+1];
-        for (int[] wire : wires) {
-            visited[wire[0]][wire[1]] = true;
-            visited[wire[1]][wire[0]] = true;
-        }
         
-        for (int[] wire : wires) {
-            cnt = 0;
-            visited[wire[0]][wire[1]] = false;
-            visited[wire[1]][wire[0]] = false;
-            dfs(wires, wire[0], n);
-            visited[wire[0]][wire[1]] = true;
-            visited[wire[1]][wire[0]] = true;
-            min = Math.min(min, Math.abs(2*cnt - n));
-        }
+        N = n;
+        visited = new boolean[N];
         
-        answer = min;
+        for(int i = 0; i < n-1; i++) {
+            initVisited();
+            
+            visited[i] = true;
+            int a = getAnswer(wires[i][0], wires);
+            visited[i] = false;
+            
+            int b = n - a;
+            answer = Math.min(Math.abs(a - b), answer);
+        }
+//         if (N < 5) return 0;
+        
+//         visited[5] = true;
+//         int a = getAnswer(4, wires);
+//         visited[5] = false;
+//         int b = n - a;
+
+//         System.out.print("a= " + a);
+//         System.out.print("b= " + b);
+        
         return answer;
     }
     
-    private static void dfs(int[][] wires, int node, int n) {
-
-        cnt++;
+    static void initVisited() {
+        Arrays.fill(visited, false);
+    }
+    
+    static int getAnswer(int node, int[][] wires) {
         
-        for (int i = 1; i < n+1; i++) {
-            if (visited[node][i]) {
-                visited[node][i] = false;
-                visited[i][node] = false;
-                dfs(wires, i, n);
-                visited[i][node] = true;
-                visited[node][i] = true;
+        boolean flag = false;
+        int sum = 1;
+        
+        for(int i = 0; i < N-1; i++) {
+            if(!visited[i]) {
+                if (wires[i][0] == node || wires[i][1] == node) {
+                    int nextNode = wires[i][0] == node ? wires[i][1] : wires[i][0];
+                    flag = true;
+                    visited[i] = true;
+                    sum += getAnswer(nextNode, wires);
+                }
             }
         }
+        
+        if (flag) {
+            return sum;
+        } 
+        
+        return 1;
     }
 }
