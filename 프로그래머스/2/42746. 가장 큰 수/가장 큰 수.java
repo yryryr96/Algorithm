@@ -1,25 +1,26 @@
 import java.util.*;
+
 class Solution {
-    
     public String solution(int[] numbers) {
+        String answer = "";
         
-        // string으로 변환하고 내림차순 정렬해서 붙이기
-        int n = numbers.length;
-        List<String> str = new ArrayList<>();
-        
-        for(int i = 0; i < n; i++) {
-            int number = numbers[i];
-            str.add(Integer.toString(number));
+        String[] arr = new String[numbers.length];
+        for(int i = 0; i < numbers.length; i++) {
+            arr[i] = String.valueOf(numbers[i]);
         }
         
-        str.sort((a,b) ->  (b+a).compareTo(a+b));
+        Arrays.sort(arr, (a,b) -> (b+a).compareTo(a+b));
+
+        if (arr[0].equals("0")) {
+            return "0";
+        }
         
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i< n; i++) {
-            sb.append(str.get(i));
+        for(String s : arr) {
+            sb.append(s);
         }
         
-        String answer = sb.toString().charAt(0) == '0' ? "0" : sb.toString();
+        answer = sb.toString();
         return answer;
     }
 }
