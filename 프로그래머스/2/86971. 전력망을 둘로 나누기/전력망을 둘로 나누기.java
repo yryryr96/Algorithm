@@ -15,21 +15,11 @@ class Solution {
             
             visited[i] = true;
             int a = getAnswer(wires[i][0], wires);
-            visited[i] = false;
             
             int b = n - a;
             answer = Math.min(Math.abs(a - b), answer);
         }
-//         if (N < 5) return 0;
-        
-//         visited[5] = true;
-//         int a = getAnswer(4, wires);
-//         visited[5] = false;
-//         int b = n - a;
 
-//         System.out.print("a= " + a);
-//         System.out.print("b= " + b);
-        
         return answer;
     }
     
