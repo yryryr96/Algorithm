@@ -3,62 +3,54 @@ import java.util.*;
 class Solution {
     
     static int n,m;
-    static int[][] MAP;
-    static class Pair {
-        int y,x;
-        Pair(int y, int x) {
-            this.y = y;
-            this.x = x;
-        }
-    }
     static int[][] visited;
-    static int dy[] = {0,1,0,-1};
-    static int dx[] = {1,0,-1,0};
+    static int[] dy = {0, 1, 0, -1};
+    static int[] dx = {1, 0, -1, 0};
     
     public int solution(int[][] maps) {
+        int answer = 0;
         
-        MAP = maps;
-        n = MAP.length;
-        m = MAP[0].length;
+        n = maps.length;
+        m = maps[0].length;
         visited = new int[n][m];
         
-        int answer = bfs();
+        answer = bfs(maps);
         return answer;
     }
     
-    static int bfs() {
+    static int bfs(int[][] maps) {
         
-        Queue<Pair> q = new LinkedList<>();
-        int sy = 0, sx = 0;
-        q.add(new Pair(sy, sx));
-        visited[sy][sx] = 1;
+        Queue<int[]> q = new LinkedList<>();
+        visited[0][0] = 1;
+        q.add(new int[]{0,0});
         
-        int ey = n-1, ex = m-1;
         while(!q.isEmpty()) {
             
-            Pair cur = q.poll();
+            int[] cur = q.poll();
+            int y = cur[0];
+            int x = cur[1];
             
-            if (cur.y == ey && cur.x == ex) {
-                return visited[ey][ex];
+            if (y == n-1 && x == m-1) {
+                return visited[y][x];
             }
             
-            for (int d = 0; d < 4; d++) {
-                int ny = cur.y + dy[d];
-                int nx = cur.x + dx[d];
+            for(int d = 0; d < 4; d++) {
+                int ny = y + dy[d];
+                int nx = x + dx[d];
                 
-                if (!isInRange(ny,nx)) continue;
-                if (visited[ny][nx] != 0) continue;
-                if (MAP[ny][nx] == 0) continue;
+                if(!inRange(ny, nx)) continue;
+                if(visited[ny][nx] != 0) continue;
+                if(maps[ny][nx] == 0) continue;
                 
-                q.add(new Pair(ny,nx));
-                visited[ny][nx] = visited[cur.y][cur.x] + 1;
+                visited[ny][nx] = visited[y][x] + 1;
+                q.add(new int[]{ny, nx});
             }
         }
         
         return -1;
     }
     
-    static boolean isInRange(int y, int x) {
+    static boolean inRange(int y, int x) {
         return 0 <= y && y < n && 0 <= x && x < m;
     }
 }
