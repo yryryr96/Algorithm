@@ -1,23 +1,20 @@
 import java.util.*;
+
 class Solution {
     
-    static Set<Integer> checkList = new HashSet<>();
-    static int size = 0;
-    static String[] nums;
+    static Set<Integer> set = new HashSet<>();
     static boolean[] visited;
     
     public int solution(String numbers) {
-        
         int answer = 0;
         
-        nums = numbers.split("");
-        size = nums.length;
-        visited = new boolean[size];
+        String[] numArr = numbers.split("");
+        visited = new boolean[numArr.length];
         
-        dfs("");
-        for (Integer n : checkList) {
-            if (isPrime(n)) {
-                System.out.println(n);
+        addNumberToSet(0, 0, "", numArr);
+        
+        for(int number : set) {
+            if(isPrime(number)) {
                 answer++;
             }
         }
@@ -25,30 +22,35 @@ class Solution {
         return answer;
     }
     
-    static void dfs(String word) {
+    static void addNumberToSet(int depth, int idx, String num, String[] numArr) {
         
-        if (word.length() == size) {
+        if(depth > 0) {
+            set.add(Integer.parseInt(num));
+        }
+        
+        if (depth == numArr.length) {
             return;
         }
         
-        for(int i = 0; i < size; i++) {
-            if (!visited[i]) {
-                
-                visited[i] = true;
-                checkList.add(Integer.parseInt(word+nums[i]));
-                dfs(word + nums[i]);
-                visited[i] = false;
-            }
+        for(int i = 0; i < numArr.length; i++) {
+            if(visited[i]) continue;
+            
+            visited[i] = true;
+            addNumberToSet(depth+1, i+1, num + numArr[i], numArr);
+            visited[i] = false;
         }
     }
     
-    static boolean isPrime(int num) {
+    static boolean isPrime(int number) {
         
-        if(num == 0 || num == 1) return false;
+        if(number <= 1) return false;
         
-        for (int i = 2; i <= Math.sqrt(num); i++) {
-            if (num % i == 0) return false;
+        for(int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
         }
+        
         return true;
     }
 }
