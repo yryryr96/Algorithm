@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -18,12 +19,23 @@ public class Main {
             arr[i] = stoi(st.nextToken());
         }
 
+        Arrays.sort(arr);
+
         int answer = 0;
-        for (int i = 0; i < n-1; i++) {
-            for (int j = i+1; j < n; j++) {
-                if (arr[i] + arr[j] == m) {
-                    answer++;
-                }
+        int left = 0;
+        int right = n-1;
+
+        while (left < right) {
+
+            int sum = arr[left] + arr[right];
+
+            if (sum > m) {
+                right--;
+            } else if (sum < m) {
+                left++;
+            } else {
+                answer++;
+                left++;
             }
         }
 
