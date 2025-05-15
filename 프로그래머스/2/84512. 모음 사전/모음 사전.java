@@ -1,26 +1,31 @@
 import java.util.*;
+
 class Solution {
     
-    static List<String> dictionary = new ArrayList<>();
-    static String[] strs = {"A", "E", "I", "O", "U"};
-    static int n = 5;
-    static boolean[] visited = new boolean[n];
-    
+    static int answer = 0, temp = -1;
+    static String[] chars = new String[]{"A", "E", "I", "O", "U"};
     public int solution(String word) {
-        
-        dfs("");
-        int answer = dictionary.indexOf(word) + 1;
+        dfs(0, "", word);
         return answer;
     }
     
-    static void dfs(String word) {
+    static void dfs(int depth, String str, String target) {
+        temp++;
+        if (answer != 0) {
+            return;
+        }
         
-        if (word.length() >= n) return;
+        if (str.equals(target)) {
+            answer = temp;
+            return;
+        }
         
-        for(int i = 0; i < n; i++) {
-            dictionary.add(word + strs[i]);
-            dfs(word + strs[i]);
+        if (depth >= 5) {
+            return;
+        }
+        
+        for(int i = 0; i < 5; i++) {
+            dfs(depth+1, str + chars[i], target);
         }
     }
-
 }
