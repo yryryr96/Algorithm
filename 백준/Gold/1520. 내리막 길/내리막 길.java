@@ -1,39 +1,40 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    static int N,M;
-    static int[][] dp;
-    static int[] dr = {-1,1,0,0};
-    static int[] dc = {0,0,1,-1};
+    static int N, M, H;
+    static int[][] board, dp;
+    static int[] dr = {-1, 0, 1, 0};
+    static int[] dc = {0, 1, 0, -1};
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         N = stoi(st.nextToken());
         M = stoi(st.nextToken());
-
+        board = new int[N][M];
         dp = new int[N][M];
+
         for (int i = 0; i < N; i++) {
             Arrays.fill(dp[i], -1);
-        }
-
-        int[][] board = new int[N][M];
-        for (int row = 0; row < N; row++) {
             st = new StringTokenizer(br.readLine());
-            for (int col = 0; col < M; col++) {
-                board[row][col] = stoi(st.nextToken());
+            for (int j = 0; j < M; j++) {
+                board[i][j] = stoi(st.nextToken());
             }
         }
 
-        int answer = dfs(board, 0, 0);
-        System.out.println(answer);
+        System.out.println(dfs(0, 0));
+
     }
 
-    static int dfs(int[][] board, int row, int col) {
+    static int dfs(int row, int col) {
+
         if (row == N-1 && col == M-1) {
             return 1;
         }
@@ -46,22 +47,18 @@ public class Main {
         for (int d = 0; d < 4; d++) {
             int nr = row + dr[d];
             int nc = col + dc[d];
-            if(!inRange(nr, nc)) {
-                continue;
-            }
-            if (board[nr][nc] >= board[row][col]) {
-                continue;
-            }
 
-            path += dfs(board, nr, nc);
+            if (inRange(nr, nc) && board[nr][nc] < board[row][col]) {
+                path += dfs(nr, nc);
+            }
         }
 
         dp[row][col] = path;
-        return path;
+        return dp[row][col];
     }
 
-    static boolean inRange(int y, int x) {
-        return 0 <= y && y < N && 0 <= x && x < M;
+    static boolean inRange(int r, int c) {
+        return 0 <= r && r < N && 0 <= c && c < M;
     }
 
     static int stoi(String s) {
