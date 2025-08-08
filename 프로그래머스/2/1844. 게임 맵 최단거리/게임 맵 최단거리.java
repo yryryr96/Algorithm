@@ -1,56 +1,60 @@
 import java.util.*;
+import java.io.*;
 
 class Solution {
     
-    static int n,m;
-    static int[][] visited;
-    static int[] dy = {0, 1, 0, -1};
-    static int[] dx = {1, 0, -1, 0};
+    static int N, M, answer;
+    static int[] dy = {0, 0, 1, -1};
+    static int[] dx = {1, -1, 0, 0};
+    static class Pair {
+        int y, x;
+        Pair(int y, int x) {
+            this.y = y;
+            this.x = x;
+        }
+    }
     
     public int solution(int[][] maps) {
-        int answer = 0;
         
-        n = maps.length;
-        m = maps[0].length;
-        visited = new int[n][m];
-        
+        N = maps.length;
+        M = maps[0].length;
         answer = bfs(maps);
+    
         return answer;
     }
     
     static int bfs(int[][] maps) {
         
-        Queue<int[]> q = new LinkedList<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(0,0));
+        
+        int[][] visited = new int[N][M];
         visited[0][0] = 1;
-        q.add(new int[]{0,0});
         
         while(!q.isEmpty()) {
             
-            int[] cur = q.poll();
-            int y = cur[0];
-            int x = cur[1];
-            
-            if (y == n-1 && x == m-1) {
-                return visited[y][x];
+            Pair cur = q.poll();
+            if (cur.y == N-1 && cur.x == M-1) {
+                return visited[cur.y][cur.x];
             }
             
             for(int d = 0; d < 4; d++) {
-                int ny = y + dy[d];
-                int nx = x + dx[d];
+                int ny = cur.y + dy[d];
+                int nx = cur.x + dx[d];
                 
-                if(!inRange(ny, nx)) continue;
+                if(!isInRange(ny, nx)) continue;
                 if(visited[ny][nx] != 0) continue;
                 if(maps[ny][nx] == 0) continue;
                 
-                visited[ny][nx] = visited[y][x] + 1;
-                q.add(new int[]{ny, nx});
+                visited[ny][nx] = visited[cur.y][cur.x] + 1;
+                q.add(new Pair(ny,nx));
             }
         }
         
         return -1;
     }
     
-    static boolean inRange(int y, int x) {
-        return 0 <= y && y < n && 0 <= x && x < m;
+    static boolean isInRange(int y, int x) {
+        return 0 <= y && y < N && 0 <= x && x < M;
     }
 }
