@@ -1,68 +1,78 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
 
-    static int k,v,e;
     static List<List<Integer>> graph;
-    static int[] visited;
+    static int[] colors;
+    static final int RED = 1;
 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+        int T = stoi(br.readLine());
 
-        k = Integer.parseInt(br.readLine());
-        for (int t = 0; t < k; t++) {
+        for (int tc = 0; tc < T; tc++) {
 
-            st = new StringTokenizer(br.readLine());
-            v = Integer.parseInt(st.nextToken());
-            e = Integer.parseInt(st.nextToken());
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int V = stoi(st.nextToken());
+            int E = stoi(st.nextToken());
+
             graph = new ArrayList<>();
-            visited = new int[v+1];
-
-            for (int i = 0; i < v+1; i++) {
+            for (int v = 0; v <= V; v++) {
                 graph.add(new ArrayList<>());
             }
 
-            for (int i = 0; i < e; i++) {
+            for (int e = 0; e < E; e++) {
                 st = new StringTokenizer(br.readLine());
-                int a = Integer.parseInt(st.nextToken());
-                int b = Integer.parseInt(st.nextToken());
-
-                graph.get(a).add(b);
-                graph.get(b).add(a);
+                int from = stoi(st.nextToken());
+                int to = stoi(st.nextToken());
+                graph.get(from).add(to);
+                graph.get(to).add(from);
             }
 
-            boolean temp = false;
-            for (int i = 1; i < v+1; i++) {
-                if (visited[i] == 0) {
-                    if(!dfs(i,1)) {
-                        System.out.println("NO");
-                        temp = true;
-                        break;
-                    }
-                }
+            colors = new int[V+1];
+            boolean isBipartite = true;
+            for (int v = 1; v <= V; v++) {
+                if (colors[v] != 0) continue;
+                isBipartite = isBipartite(v, RED);
+                if (!isBipartite) break;
             }
 
-            if (!temp) {
+            if (isBipartite) {
                 System.out.println("YES");
+            } else {
+                System.out.println("NO");
             }
         }
     }
 
-    static boolean dfs(int i, int group) {
+    static boolean isBipartite(int start, int color) {
 
-        visited[i] = group;
-        for (int next : graph.get(i)) {
-            if (visited[next] == 0) {
-                boolean temp = dfs(next, -group);
-                if (!temp) return false;
-            } else {
-                if (visited[next] != -group) return false;
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
+        colors[start] = color;
+
+        while(!q.isEmpty()) {
+            int cur = q.poll();
+            for(int next : graph.get(cur)) {
+                if (colors[cur] == colors[next]) {
+                    return false;
+                }
+
+                if (colors[next] == 0) {
+                    colors[next] = colors[cur] * (-1);
+                    q.add(next);
+                }
             }
         }
 
         return true;
+    }
+
+    static int stoi(String s) {
+        return Integer.parseInt(s);
     }
 }
