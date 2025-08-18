@@ -63,15 +63,15 @@ public class Main {
             Pair cur = q.poll();
 
             width++;
-            border += getBorder(cur.y, cur.x);
-
             for (int d = 0; d < 4; d++) {
                 int ny = cur.y + dy[d];
                 int nx = cur.x + dx[d];
 
-                if(!isInRange(ny, nx)) continue;
+                if(!isInRange(ny, nx) || map[ny][nx].equals(DOT)) {
+                    border++;
+                    continue;
+                }
                 if(visited[ny][nx]) continue;
-                if(map[ny][nx].equals(DOT)) continue;
 
                 visited[ny][nx] = true;
                 q.add(new Pair(ny, nx));
@@ -84,20 +84,6 @@ public class Main {
         } else if (width == maxWidth) {
             minBorder = Math.min(minBorder, border);
         }
-    }
-
-    static int getBorder(int y, int x) {
-
-        int border = 0;
-        for (int d = 0; d < 4; d++) {
-            int ny = y + dy[d];
-            int nx = x + dx[d];
-            if(!isInRange(ny, nx) || map[ny][nx].equals(DOT)) {
-                border++;
-            }
-        }
-
-        return border;
     }
 
     static boolean isInRange(int y , int x) {
